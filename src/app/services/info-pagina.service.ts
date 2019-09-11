@@ -9,19 +9,29 @@ export class InfoPaginaService {
 
   info: infoPagina = {};
   cargada = false;
+equipo: any[] = [];
 
-  constructor( private http: HttpClient) { 
-// console.log('servicio pagina dude');
+  constructor( private http: HttpClient) {
+    this.cargarInfo();
+    this.cargarEquipo();
+  }
 
-   // leer archivo Json
+  private cargarInfo() {
     this.http.get('assets/data/data-pagina.json')
-      // tslint:disable-next-line: no-shadowed-variable
-      .subscribe( (resp: infoPagina) => {
+    // tslint:disable-next-line: no-shadowed-variable
+    .subscribe( ( resp: infoPagina ) => {
 
-        this.cargada = true;
-        this.info = resp;
-        console.log(resp);
-        // console.log( resp['email'] );
-      });
+      this.cargada = true;
+      this.info = resp;
+    });
+  }
+
+  private cargarEquipo() {
+    this.http.get('https://angular-html-36f27.firebaseio.com/equipo.json')
+    // tslint:disable-next-line: no-shadowed-variable
+    .subscribe( (resp: any[]) => {
+      this.equipo = resp;
+      // console.log(resp);
+    });
   }
 }
